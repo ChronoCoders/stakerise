@@ -3,8 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { TokenType, StakingConfig } from '@/lib/staking-abi';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { TokenType, StakingConfig } from "@/lib/staking-abi";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { TransactionHistory } from "@/components/ui/transaction-history";
 import { AnalyticsChart } from "@/components/ui/analytics-chart";
@@ -12,7 +18,7 @@ import { RewardsPanel } from "@/components/ui/rewards-panel";
 import { NewsFeed } from "@/components/ui/news-feed";
 import { ReferralProgram } from "@/components/ui/referral-program";
 import { PortfolioAnalytics } from "@/components/ui/portfolio-analytics";
-import { Transaction } from '@/lib/contract-service';
+import { Transaction } from "@/lib/contract-service";
 import { toast } from "sonner";
 
 export default function Dashboard() {
@@ -23,16 +29,16 @@ export default function Dashboard() {
   const [balance, setBalance] = useState({
     str: 0,
     btc: 0,
-    eth: 0
+    eth: 0,
   });
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [rewards, setRewards] = useState([]);
   const [analyticsData, setAnalyticsData] = useState([
-    { date: '2025-01', tvl: 1000000, apy: 12.5, stakes: 150 },
-    { date: '2025-02', tvl: 1200000, apy: 13.1, stakes: 180 },
-    { date: '2025-03', tvl: 1500000, apy: 13.8, stakes: 220 },
-    { date: '2025-04', tvl: 1800000, apy: 14.2, stakes: 280 }
+    { date: "2025-01", tvl: 1000000, apy: 12.5, stakes: 150 },
+    { date: "2025-02", tvl: 1200000, apy: 13.1, stakes: 180 },
+    { date: "2025-03", tvl: 1500000, apy: 13.8, stakes: 220 },
+    { date: "2025-04", tvl: 1800000, apy: 14.2, stakes: 280 },
   ]);
 
   useEffect(() => {
@@ -42,9 +48,24 @@ export default function Dashboard() {
           // Load balances
           const balances = await stakingService.getAllBalances();
           setBalance({
-            str: Number(stakingService.convertFromTokenAmount(balances[TokenType.STR], TokenType.STR)),
-            btc: Number(stakingService.convertFromTokenAmount(balances[TokenType.BTC], TokenType.BTC)),
-            eth: Number(stakingService.convertFromTokenAmount(balances[TokenType.ETH], TokenType.ETH))
+            str: Number(
+              stakingService.convertFromTokenAmount(
+                balances[TokenType.STR],
+                TokenType.STR,
+              ),
+            ),
+            btc: Number(
+              stakingService.convertFromTokenAmount(
+                balances[TokenType.BTC],
+                TokenType.BTC,
+              ),
+            ),
+            eth: Number(
+              stakingService.convertFromTokenAmount(
+                balances[TokenType.ETH],
+                TokenType.ETH,
+              ),
+            ),
           });
 
           // Load transactions
@@ -53,11 +74,16 @@ export default function Dashboard() {
 
           // Load stakes and calculate rewards
           const stakes = await stakingService.getUserStakes();
-          const rewardsData = stakes.map(stake => ({
+          const rewardsData = stakes.map((stake) => ({
             stakeIndex: stake.index,
             tokenType: stake.tokenType,
-            amount: stakingService.convertFromTokenAmount(stake.pendingRewards, stake.tokenType),
-            nextClaimDate: new Date(stake.lastClaimTime.getTime() + 24 * 60 * 60 * 1000) // Next day
+            amount: stakingService.convertFromTokenAmount(
+              stake.pendingRewards,
+              stake.tokenType,
+            ),
+            nextClaimDate: new Date(
+              stake.lastClaimTime.getTime() + 24 * 60 * 60 * 1000,
+            ), // Next day
           }));
           setRewards(rewardsData);
         } catch (err) {
@@ -74,18 +100,36 @@ export default function Dashboard() {
 
   const handleStake = async () => {
     if (!stakingService || !account) return;
-    
+
     try {
-      const amount = stakingService.convertToTokenAmount(stakeAmount, selectedToken);
+      const amount = stakingService.convertToTokenAmount(
+        stakeAmount,
+        selectedToken,
+      );
       await stakingService.stakeTokens(amount, selectedToken, selectedTier);
       toast.success("Stake successful!");
-      
+
       // Refresh balances
       const balances = await stakingService.getAllBalances();
       setBalance({
-        str: Number(stakingService.convertFromTokenAmount(balances[TokenType.STR], TokenType.STR)),
-        btc: Number(stakingService.convertFromTokenAmount(balances[TokenType.BTC], TokenType.BTC)),
-        eth: Number(stakingService.convertFromTokenAmount(balances[TokenType.ETH], TokenType.ETH))
+        str: Number(
+          stakingService.convertFromTokenAmount(
+            balances[TokenType.STR],
+            TokenType.STR,
+          ),
+        ),
+        btc: Number(
+          stakingService.convertFromTokenAmount(
+            balances[TokenType.BTC],
+            TokenType.BTC,
+          ),
+        ),
+        eth: Number(
+          stakingService.convertFromTokenAmount(
+            balances[TokenType.ETH],
+            TokenType.ETH,
+          ),
+        ),
       });
     } catch (err) {
       console.error("Failed to stake tokens:", err);
@@ -115,24 +159,25 @@ export default function Dashboard() {
 
   const handleTransactionSort = (field: keyof Transaction) => {
     const sorted = [...transactions].sort((a, b) => {
-      if (field === 'timestamp') return b.timestamp - a.timestamp;
-      if (field === 'amount') return Number(b.amount) - Number(a.amount);
+      if (field === "timestamp") return b.timestamp - a.timestamp;
+      if (field === "amount") return Number(b.amount) - Number(a.amount);
       return 0;
     });
     setTransactions(sorted);
   };
 
   const handleTransactionFilter = (type: string) => {
-    if (type === 'all') return;
-    const filtered = transactions.filter(tx => tx.type === type);
+    if (type === "all") return;
+    const filtered = transactions.filter((tx) => tx.type === type);
     setTransactions(filtered);
   };
 
   const handleTransactionSearch = (query: string) => {
     if (!query) return;
-    const filtered = transactions.filter(tx => 
-      tx.hash.toLowerCase().includes(query.toLowerCase()) ||
-      tx.amount.toString().includes(query)
+    const filtered = transactions.filter(
+      (tx) =>
+        tx.hash.toLowerCase().includes(query.toLowerCase()) ||
+        tx.amount.toString().includes(query),
     );
     setTransactions(filtered);
   };
@@ -143,7 +188,9 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold">StakeRise Dashboard</h1>
         <div className="flex gap-2 mt-2 md:mt-0">
           <Button onClick={connectWallet} variant="outline">
-            {account ? `${account.slice(0, 6)}...${account.slice(-4)}` : "Connect Wallet"}
+            {account
+              ? `${account.slice(0, 6)}...${account.slice(-4)}`
+              : "Connect Wallet"}
           </Button>
           <Button variant="ghost">Help</Button>
         </div>
@@ -201,35 +248,39 @@ export default function Dashboard() {
                 <h2 className="text-lg font-semibold mb-2">Stake Tokens</h2>
                 <div className="grid gap-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">Available Balance:</p>
+                    <p className="text-sm text-muted-foreground">
+                      Available Balance:
+                    </p>
                     <p className="text-sm font-medium">
                       {balance.str} STR | {balance.btc} BTC | {balance.eth} ETH
                     </p>
                   </div>
-                  <Input 
-                    placeholder="Amount to Stake" 
+                  <Input
+                    placeholder="Amount to Stake"
                     value={stakeAmount}
                     onChange={(e) => setStakeAmount(e.target.value)}
                     type="number"
                     min={0}
                     step="any"
                   />
-                  <Select 
-                    value={selectedToken.toString()} 
+                  <Select
+                    value={selectedToken.toString()}
                     onValueChange={(value) => setSelectedToken(Number(value))}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select Token" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.entries(TokenType).filter(([key]) => isNaN(Number(key))).map(([key, value]) => (
-                        <SelectItem key={value} value={value.toString()}>
-                          {StakingConfig[value].symbol}
-                        </SelectItem>
-                      ))}
+                      {Object.entries(TokenType)
+                        .filter(([key]) => isNaN(Number(key)))
+                        .map(([key, value]) => (
+                          <SelectItem key={value} value={value.toString()}>
+                            {StakingConfig[value].symbol}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
-                  <Select 
+                  <Select
                     value={selectedTier.toString()}
                     onValueChange={(value) => setSelectedTier(Number(value))}
                   >
@@ -245,11 +296,21 @@ export default function Dashboard() {
                     </SelectContent>
                   </Select>
                   <div className="text-sm text-muted-foreground">
-                    Minimum stake: {StakingConfig[selectedToken].tiers[selectedTier].minAmount} {StakingConfig[selectedToken].symbol}
+                    Minimum stake:{" "}
+                    {StakingConfig[selectedToken].tiers[selectedTier].minAmount}{" "}
+                    {StakingConfig[selectedToken].symbol}
                   </div>
-                  <Button 
-                    className="w-full" 
-                    disabled={!account || !stakeAmount || Number(stakeAmount) < Number(StakingConfig[selectedToken].tiers[selectedTier].minAmount)}
+                  <Button
+                    className="w-full"
+                    disabled={
+                      !account ||
+                      !stakeAmount ||
+                      Number(stakeAmount) <
+                        Number(
+                          StakingConfig[selectedToken].tiers[selectedTier]
+                            .minAmount,
+                        )
+                    }
                     onClick={handleStake}
                   >
                     {account ? "Stake Now" : "Connect Wallet to Stake"}

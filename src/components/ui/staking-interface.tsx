@@ -1,25 +1,37 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Button } from './button';
-import { Input } from './input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './select';
-import { TokenType, StakingConfig } from '@/lib/staking-abi';
-import { useWeb3 } from '@/contexts/Web3Context';
-import { activityService } from '@/lib/activity-service';
-import { StakingHistory } from './staking-history';
-import { toast } from 'sonner';
-import { 
-  Coins, Clock, AlertTriangle, TrendingUp, 
-  Calculator, RefreshCw, CheckCircle2, Loader2 
-} from 'lucide-react';
+import React from "react";
+import { Card, CardContent } from "./card";
+import { Button } from "./button";
+import { Input } from "./input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./select";
+import { TokenType, StakingConfig } from "@/lib/staking-abi";
+import { useWeb3 } from "@/contexts/Web3Context";
+import { activityService } from "@/lib/activity-service";
+import { StakingHistory } from "./staking-history";
+import { toast } from "sonner";
+import {
+  Coins,
+  Clock,
+  AlertTriangle,
+  TrendingUp,
+  Calculator,
+  RefreshCw,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 
 export function StakingInterface() {
   const { stakingService } = useWeb3();
   const [selectedToken, setSelectedToken] = React.useState(TokenType.STR);
   const [selectedTier, setSelectedTier] = React.useState(0);
-  const [amount, setAmount] = React.useState('');
+  const [amount, setAmount] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const [balance, setBalance] = React.useState('0');
+  const [balance, setBalance] = React.useState("0");
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [compoundRewards, setCompoundRewards] = React.useState(true);
 
@@ -27,11 +39,14 @@ export function StakingInterface() {
     const loadBalance = async () => {
       if (stakingService) {
         try {
-          const tokenBalance = await stakingService.getTokenBalance(selectedToken);
-          setBalance(stakingService.convertFromTokenAmount(tokenBalance, selectedToken));
+          const tokenBalance =
+            await stakingService.getTokenBalance(selectedToken);
+          setBalance(
+            stakingService.convertFromTokenAmount(tokenBalance, selectedToken),
+          );
         } catch (error) {
-          console.error('Failed to load balance:', error);
-          toast.error('Failed to load token balance');
+          console.error("Failed to load balance:", error);
+          toast.error("Failed to load token balance");
         }
       }
     };
@@ -44,25 +59,34 @@ export function StakingInterface() {
 
     try {
       setLoading(true);
-      const tokenAmount = stakingService.convertToTokenAmount(amount, selectedToken);
-      await stakingService.stakeTokens(tokenAmount, selectedToken, selectedTier);
+      const tokenAmount = stakingService.convertToTokenAmount(
+        amount,
+        selectedToken,
+      );
+      await stakingService.stakeTokens(
+        tokenAmount,
+        selectedToken,
+        selectedTier,
+      );
 
       // Log activity
       await activityService.logActivity(
-        'token_staked',
-        `Staked ${amount} ${StakingConfig[selectedToken].symbol} for ${StakingConfig[selectedToken].tiers[selectedTier].duration} months`
+        "token_staked",
+        `Staked ${amount} ${StakingConfig[selectedToken].symbol} for ${StakingConfig[selectedToken].tiers[selectedTier].duration} months`,
       );
 
-      toast.success('Tokens staked successfully');
-      setAmount('');
+      toast.success("Tokens staked successfully");
+      setAmount("");
       setShowConfirmation(false);
 
       // Refresh balance
       const newBalance = await stakingService.getTokenBalance(selectedToken);
-      setBalance(stakingService.convertFromTokenAmount(newBalance, selectedToken));
+      setBalance(
+        stakingService.convertFromTokenAmount(newBalance, selectedToken),
+      );
     } catch (error) {
-      console.error('Failed to stake tokens:', error);
-      toast.error('Failed to stake tokens');
+      console.error("Failed to stake tokens:", error);
+      toast.error("Failed to stake tokens");
     } finally {
       setLoading(false);
     }
@@ -74,7 +98,8 @@ export function StakingInterface() {
   const meetsMinAmount = Number(amount) >= Number(selectedTierConfig.minAmount);
 
   const calculateRewards = () => {
-    if (!amount) return { monthly: '0', total: '0', apy: selectedTierConfig.apy };
+    if (!amount)
+      return { monthly: "0", total: "0", apy: selectedTierConfig.apy };
 
     const principal = Number(amount);
     const monthlyRate = selectedTierConfig.apy / 12 / 100;
@@ -88,7 +113,7 @@ export function StakingInterface() {
       return {
         monthly: monthly.toFixed(4),
         total: (total - principal).toFixed(4),
-        apy: actualAPY
+        apy: actualAPY,
       };
     } else {
       // Simple interest
@@ -97,7 +122,7 @@ export function StakingInterface() {
       return {
         monthly: monthly.toFixed(4),
         total: total.toFixed(4),
-        apy: selectedTierConfig.apy
+        apy: selectedTierConfig.apy,
       };
     }
   };
@@ -135,7 +160,9 @@ export function StakingInterface() {
 
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">Select Token</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Select Token
+                </label>
                 <Select
                   value={selectedToken.toString()}
                   onValueChange={(value) => setSelectedToken(Number(value))}
@@ -156,7 +183,9 @@ export function StakingInterface() {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Amount to Stake</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Amount to Stake
+                </label>
                 <Input
                   type="number"
                   value={amount}
@@ -168,7 +197,9 @@ export function StakingInterface() {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Staking Duration</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Staking Duration
+                </label>
                 <Select
                   value={selectedTier.toString()}
                   onValueChange={(value) => setSelectedTier(Number(value))}
@@ -192,7 +223,9 @@ export function StakingInterface() {
                     <Clock className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium">Lock Period</span>
                   </div>
-                  <p className="text-2xl font-bold">{selectedTierConfig.duration} months</p>
+                  <p className="text-2xl font-bold">
+                    {selectedTierConfig.duration} months
+                  </p>
                 </div>
 
                 <div className="p-4 rounded-lg bg-muted/50">
@@ -208,7 +241,8 @@ export function StakingInterface() {
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-yellow-600" />
                   <span className="text-sm text-yellow-800">
-                    Early unstaking will incur a {selectedTierConfig.penalty}% penalty
+                    Early unstaking will incur a {selectedTierConfig.penalty}%
+                    penalty
                   </span>
                 </div>
               </div>
@@ -222,7 +256,7 @@ export function StakingInterface() {
                   className="ml-auto"
                   onClick={() => setCompoundRewards(!compoundRewards)}
                 >
-                  {compoundRewards ? 'Enabled' : 'Disabled'}
+                  {compoundRewards ? "Enabled" : "Disabled"}
                 </Button>
               </div>
 
@@ -246,7 +280,7 @@ export function StakingInterface() {
               {amount && (!hasEnoughBalance || !meetsMinAmount) && (
                 <p className="text-sm text-destructive">
                   {!hasEnoughBalance
-                    ? 'Insufficient balance'
+                    ? "Insufficient balance"
                     : `Minimum stake amount is ${selectedTierConfig.minAmount} ${selectedConfig.symbol}`}
                 </p>
               )}
@@ -255,11 +289,7 @@ export function StakingInterface() {
                 <Button
                   className="w-full"
                   onClick={() => setShowConfirmation(true)}
-                  disabled={
-                    !amount ||
-                    !hasEnoughBalance ||
-                    !meetsMinAmount
-                  }
+                  disabled={!amount || !hasEnoughBalance || !meetsMinAmount}
                 >
                   Review Stake
                 </Button>
@@ -270,7 +300,9 @@ export function StakingInterface() {
                     <div className="text-sm space-y-1">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Amount:</span>
-                        <span>{amount} {selectedConfig.symbol}</span>
+                        <span>
+                          {amount} {selectedConfig.symbol}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Duration:</span>
@@ -281,8 +313,12 @@ export function StakingInterface() {
                         <span>{rewards.apy}%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Total Rewards:</span>
-                        <span>{rewards.total} {selectedConfig.symbol}</span>
+                        <span className="text-muted-foreground">
+                          Total Rewards:
+                        </span>
+                        <span>
+                          {rewards.total} {selectedConfig.symbol}
+                        </span>
                       </div>
                     </div>
                   </div>

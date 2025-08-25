@@ -1,10 +1,10 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Button } from './button';
-import { Input } from './input';
-import { Copy, RefreshCw } from 'lucide-react';
-import { referralService } from '@/lib/referral-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Copy, RefreshCw } from "lucide-react";
+import { referralService } from "@/lib/referral-service";
+import { toast } from "sonner";
 
 export function ReferralCode() {
   const [code, setCode] = React.useState<string | null>(null);
@@ -21,8 +21,8 @@ export function ReferralCode() {
         setCode(newCode.code);
       }
     } catch (error) {
-      console.error('Failed to load referral code:', error);
-      toast.error('Failed to load referral code');
+      console.error("Failed to load referral code:", error);
+      toast.error("Failed to load referral code");
     } finally {
       setLoading(false);
     }
@@ -35,14 +35,14 @@ export function ReferralCode() {
   const handleCopy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success('Copied to clipboard');
+      toast.success("Copied to clipboard");
     } catch (error) {
-      console.error('Failed to copy:', error);
-      toast.error('Failed to copy to clipboard');
+      console.error("Failed to copy:", error);
+      toast.error("Failed to copy to clipboard");
     }
   };
 
-  const referralLink = code ? `${window.location.origin}?ref=${code}` : '';
+  const referralLink = code ? `${window.location.origin}?ref=${code}` : "";
 
   return (
     <Card>
@@ -57,9 +57,11 @@ export function ReferralCode() {
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium mb-2 block">Referral Code</label>
+            <label className="text-sm font-medium mb-2 block">
+              Referral Code
+            </label>
             <div className="flex gap-2">
-              <Input value={code || ''} readOnly />
+              <Input value={code || ""} readOnly />
               <Button
                 variant="outline"
                 onClick={() => code && handleCopy(code)}
@@ -71,7 +73,9 @@ export function ReferralCode() {
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-2 block">Referral Link</label>
+            <label className="text-sm font-medium mb-2 block">
+              Referral Link
+            </label>
             <div className="flex gap-2">
               <Input value={referralLink} readOnly />
               <Button

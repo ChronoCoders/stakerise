@@ -1,31 +1,44 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './table';
-import { Button } from './button';
-import { Activity, RefreshCw, ArrowUpDown, Filter } from 'lucide-react';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './select';
-import { Input } from './input';
-import { activityService, ActivityLog } from '@/lib/activity-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "./table";
+import { Button } from "./button";
+import { Activity, RefreshCw, ArrowUpDown, Filter } from "lucide-react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./select";
+import { Input } from "./input";
+import { activityService, ActivityLog } from "@/lib/activity-service";
+import { toast } from "sonner";
 
 const ACTIVITY_TYPES = [
-  'All Activities',
-  'Token Stakes',
-  'Token Unstakes',
-  'Rewards Claims',
-  'KYC Updates',
-  'Settings Changes',
-  'Security Events'
+  "All Activities",
+  "Token Stakes",
+  "Token Unstakes",
+  "Rewards Claims",
+  "KYC Updates",
+  "Settings Changes",
+  "Security Events",
 ];
 
 export function ActivityLogPanel() {
   const [activities, setActivities] = React.useState<ActivityLog[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [filter, setFilter] = React.useState('All Activities');
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [filter, setFilter] = React.useState("All Activities");
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [sortConfig, setSortConfig] = React.useState({
-    key: 'created_at',
-    direction: 'desc'
+    key: "created_at",
+    direction: "desc",
   });
 
   const loadActivities = async () => {
@@ -34,8 +47,8 @@ export function ActivityLogPanel() {
       const data = await activityService.getActivityLog();
       setActivities(data);
     } catch (error) {
-      console.error('Failed to load activity log:', error);
-      toast.error('Failed to load activity log');
+      console.error("Failed to load activity log:", error);
+      toast.error("Failed to load activity log");
     } finally {
       setLoading(false);
     }
@@ -48,11 +61,14 @@ export function ActivityLogPanel() {
   const handleSort = (key: keyof ActivityLog) => {
     setSortConfig({
       key,
-      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc'
+      direction:
+        sortConfig.key === key && sortConfig.direction === "asc"
+          ? "desc"
+          : "asc",
     });
 
     const sortedActivities = [...activities].sort((a, b) => {
-      if (sortConfig.direction === 'asc') {
+      if (sortConfig.direction === "asc") {
         return a[key] > b[key] ? 1 : -1;
       }
       return a[key] < b[key] ? 1 : -1;
@@ -61,11 +77,15 @@ export function ActivityLogPanel() {
     setActivities(sortedActivities);
   };
 
-  const filteredActivities = activities.filter(activity => {
-    const matchesFilter = filter === 'All Activities' || 
-      activity.action.toLowerCase().includes(filter.toLowerCase().replace(' ', '_'));
-    
-    const matchesSearch = !searchQuery || 
+  const filteredActivities = activities.filter((activity) => {
+    const matchesFilter =
+      filter === "All Activities" ||
+      activity.action
+        .toLowerCase()
+        .includes(filter.toLowerCase().replace(" ", "_"));
+
+    const matchesSearch =
+      !searchQuery ||
       activity.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
       activity.details.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -74,9 +94,9 @@ export function ActivityLogPanel() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      dateStyle: 'medium',
-      timeStyle: 'medium'
+    return new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+      timeStyle: "medium",
     }).format(date);
   };
 
@@ -127,7 +147,7 @@ export function ActivityLogPanel() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('created_at')}
+                    onClick={() => handleSort("created_at")}
                     className="h-8 flex items-center gap-1"
                   >
                     Date <ArrowUpDown className="h-4 w-4" />
@@ -136,7 +156,7 @@ export function ActivityLogPanel() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('action')}
+                    onClick={() => handleSort("action")}
                     className="h-8 flex items-center gap-1"
                   >
                     Action <ArrowUpDown className="h-4 w-4" />
@@ -151,18 +171,21 @@ export function ActivityLogPanel() {
                 <TableRow key={activity.id}>
                   <TableCell>{formatDate(activity.created_at)}</TableCell>
                   <TableCell className="capitalize">
-                    {activity.action.replace(/_/g, ' ')}
+                    {activity.action.replace(/_/g, " ")}
                   </TableCell>
                   <TableCell>{activity.details}</TableCell>
                   <TableCell className="font-mono">
-                    {activity.ip_address || 'N/A'}
+                    {activity.ip_address || "N/A"}
                   </TableCell>
                 </TableRow>
               ))}
               {filteredActivities.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-muted-foreground">
-                    {loading ? 'Loading activities...' : 'No activities found'}
+                  <TableCell
+                    colSpan={4}
+                    className="text-center text-muted-foreground"
+                  >
+                    {loading ? "Loading activities..." : "No activities found"}
                   </TableCell>
                 </TableRow>
               )}
