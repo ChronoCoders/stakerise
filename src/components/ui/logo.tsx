@@ -1,5 +1,5 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface LogoProps {
   className?: string;
@@ -9,7 +9,10 @@ interface LogoProps {
 
 export function Logo({ className, showText = true, onClick }: LogoProps) {
   return (
-    <div className={cn("flex items-center gap-3 group cursor-pointer", className)} onClick={onClick}>
+    <div
+      className={cn("flex items-center gap-3 group cursor-pointer", className)}
+      onClick={onClick}
+    >
       <div className="relative flex items-center justify-center">
         {/* Main logo shape */}
         <div className="w-10 h-10 bg-gradient-to-br from-primary via-primary/90 to-primary/80 rounded-xl transform rotate-45 overflow-hidden transition-transform duration-300 group-hover:rotate-[135deg]">
@@ -17,7 +20,9 @@ export function Logo({ className, showText = true, onClick }: LogoProps) {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-8 h-8 bg-gradient-to-tr from-background/20 to-background/5 rounded-lg transform -rotate-45 flex items-center justify-center backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
               <div className="w-6 h-6 bg-primary-foreground/90 rounded-md transform rotate-45 flex items-center justify-center shadow-inner transition-all duration-300 group-hover:shadow-lg">
-                <span className="text-lg font-bold text-primary transform -rotate-45 transition-transform duration-300 group-hover:scale-110">S</span>
+                <span className="text-lg font-bold text-primary transform -rotate-45 transition-transform duration-300 group-hover:scale-110">
+                  S
+                </span>
               </div>
             </div>
           </div>
@@ -33,7 +38,10 @@ export function Logo({ className, showText = true, onClick }: LogoProps) {
       {showText && (
         <div className="flex flex-col">
           <span className="text-xl font-bold tracking-tight leading-none transition-colors duration-300">
-            Stake<span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/90 to-primary/80">Rise</span>
+            Stake
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/90 to-primary/80">
+              Rise
+            </span>
           </span>
           <span className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground font-medium transition-opacity duration-300 group-hover:opacity-80">
             STR Token

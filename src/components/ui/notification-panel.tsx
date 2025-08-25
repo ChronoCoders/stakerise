@@ -1,24 +1,37 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Button } from './button';
-import { Input } from './input';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './table';
-import { Bell, Mail, Shield, Megaphone, RefreshCw } from 'lucide-react';
-import { notificationService, NotificationSettings, NotificationHistory } from '@/lib/notification-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import { Button } from "./button";
+import { Input } from "./input";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "./table";
+import { Bell, Mail, Shield, Megaphone, RefreshCw } from "lucide-react";
+import {
+  notificationService,
+  NotificationSettings,
+  NotificationHistory,
+} from "@/lib/notification-service";
+import { toast } from "sonner";
 
 export function NotificationPanel() {
-  const [settings, setSettings] = React.useState<NotificationSettings | null>(null);
+  const [settings, setSettings] = React.useState<NotificationSettings | null>(
+    null,
+  );
   const [history, setHistory] = React.useState<NotificationHistory[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState("");
 
   const loadData = async () => {
     try {
       setLoading(true);
       const [settingsData, historyData] = await Promise.all([
         notificationService.getSettings(),
-        notificationService.getNotificationHistory()
+        notificationService.getNotificationHistory(),
       ]);
       setSettings(settingsData);
       setHistory(historyData);
@@ -26,8 +39,8 @@ export function NotificationPanel() {
         setEmail(settingsData.email);
       }
     } catch (error) {
-      console.error('Failed to load notification data:', error);
-      toast.error('Failed to load notification settings');
+      console.error("Failed to load notification data:", error);
+      toast.error("Failed to load notification settings");
     } finally {
       setLoading(false);
     }
@@ -39,18 +52,18 @@ export function NotificationPanel() {
 
   const handleToggle = async (key: keyof NotificationSettings) => {
     if (!settings) return;
-    
+
     try {
       const newSettings = {
         ...settings,
-        [key]: !settings[key]
+        [key]: !settings[key],
       };
       await notificationService.updateSettings({ [key]: !settings[key] });
       setSettings(newSettings);
-      toast.success('Notification settings updated');
+      toast.success("Notification settings updated");
     } catch (error) {
-      console.error('Failed to update settings:', error);
-      toast.error('Failed to update settings');
+      console.error("Failed to update settings:", error);
+      toast.error("Failed to update settings");
     }
   };
 
@@ -59,10 +72,10 @@ export function NotificationPanel() {
 
     try {
       await notificationService.updateSettings({ email });
-      toast.success('Email updated successfully');
+      toast.success("Email updated successfully");
     } catch (error) {
-      console.error('Failed to update email:', error);
-      toast.error('Failed to update email');
+      console.error("Failed to update email:", error);
+      toast.error("Failed to update email");
     }
   };
 
@@ -84,7 +97,9 @@ export function NotificationPanel() {
           <div className="space-y-6">
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">Email Address</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Email Address
+                </label>
                 <div className="flex gap-2">
                   <Input
                     type="email"
@@ -108,10 +123,12 @@ export function NotificationPanel() {
                     </div>
                   </div>
                   <Button
-                    variant={settings?.kyc_status_updates ? "default" : "outline"}
-                    onClick={() => handleToggle('kyc_status_updates')}
+                    variant={
+                      settings?.kyc_status_updates ? "default" : "outline"
+                    }
+                    onClick={() => handleToggle("kyc_status_updates")}
                   >
-                    {settings?.kyc_status_updates ? 'Enabled' : 'Disabled'}
+                    {settings?.kyc_status_updates ? "Enabled" : "Disabled"}
                   </Button>
                 </div>
 
@@ -127,9 +144,9 @@ export function NotificationPanel() {
                   </div>
                   <Button
                     variant={settings?.document_updates ? "default" : "outline"}
-                    onClick={() => handleToggle('document_updates')}
+                    onClick={() => handleToggle("document_updates")}
                   >
-                    {settings?.document_updates ? 'Enabled' : 'Disabled'}
+                    {settings?.document_updates ? "Enabled" : "Disabled"}
                   </Button>
                 </div>
 
@@ -145,9 +162,9 @@ export function NotificationPanel() {
                   </div>
                   <Button
                     variant={settings?.security_alerts ? "default" : "outline"}
-                    onClick={() => handleToggle('security_alerts')}
+                    onClick={() => handleToggle("security_alerts")}
                   >
-                    {settings?.security_alerts ? 'Enabled' : 'Disabled'}
+                    {settings?.security_alerts ? "Enabled" : "Disabled"}
                   </Button>
                 </div>
 
@@ -162,10 +179,12 @@ export function NotificationPanel() {
                     </div>
                   </div>
                   <Button
-                    variant={settings?.marketing_updates ? "default" : "outline"}
-                    onClick={() => handleToggle('marketing_updates')}
+                    variant={
+                      settings?.marketing_updates ? "default" : "outline"
+                    }
+                    onClick={() => handleToggle("marketing_updates")}
                   >
-                    {settings?.marketing_updates ? 'Enabled' : 'Disabled'}
+                    {settings?.marketing_updates ? "Enabled" : "Disabled"}
                   </Button>
                 </div>
               </div>
@@ -194,14 +213,20 @@ export function NotificationPanel() {
                       {new Date(notification.created_at).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="capitalize">
-                      {notification.type.replace('_', ' ')}
+                      {notification.type.replace("_", " ")}
                     </TableCell>
                     <TableCell>{notification.subject}</TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                        ${notification.status === 'sent' ? 'bg-green-100 text-green-800' :
-                        notification.status === 'failed' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'}`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                        ${
+                          notification.status === "sent"
+                            ? "bg-green-100 text-green-800"
+                            : notification.status === "failed"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
                         {notification.status}
                       </span>
                     </TableCell>
@@ -209,7 +234,10 @@ export function NotificationPanel() {
                 ))}
                 {history.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-muted-foreground">
+                    <TableCell
+                      colSpan={4}
+                      className="text-center text-muted-foreground"
+                    >
                       No notifications yet
                     </TableCell>
                   </TableRow>

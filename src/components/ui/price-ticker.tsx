@@ -1,29 +1,29 @@
-import React from 'react';
-import { useTokenPrices } from '@/lib/price-service';
-import { TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { Button } from './button';
-import { toast } from 'sonner';
+import React from "react";
+import { useTokenPrices } from "@/lib/price-service";
+import { TrendingUp, TrendingDown, RefreshCw } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "./button";
+import { toast } from "sonner";
 
 const tokens = [
-  { id: 'stakerise', symbol: 'STR' },
-  { id: 'bitcoin', symbol: 'BTC' },
-  { id: 'ethereum', symbol: 'ETH' },
-  { id: 'litecoin', symbol: 'LTC' },
-  { id: 'tether', symbol: 'USDT' },
-  { id: 'usd-coin', symbol: 'USDC' }
+  { id: "stakerise", symbol: "STR" },
+  { id: "bitcoin", symbol: "BTC" },
+  { id: "ethereum", symbol: "ETH" },
+  { id: "litecoin", symbol: "LTC" },
+  { id: "tether", symbol: "USDT" },
+  { id: "usd-coin", symbol: "USDC" },
 ];
 
 const formatPrice = (price: number, symbol: string) => {
   switch (symbol) {
-    case 'STR':
+    case "STR":
       return price < 0.01 ? price.toFixed(18) : price.toFixed(8);
-    case 'ETH':
+    case "ETH":
       return price < 0.01 ? price.toFixed(18) : price.toFixed(8);
-    case 'BTC':
+    case "BTC":
       return price.toFixed(8);
-    case 'USDT':
-    case 'USDC':
+    case "USDT":
+    case "USDC":
       return price.toFixed(6);
     default:
       return price < 0.01 ? price.toFixed(8) : price.toFixed(2);
@@ -31,19 +31,21 @@ const formatPrice = (price: number, symbol: string) => {
 };
 
 export function PriceTicker() {
-  const { prices, isLoading, isError, refresh } = useTokenPrices(tokens.map(t => t.id));
+  const { prices, isLoading, isError, refresh } = useTokenPrices(
+    tokens.map((t) => t.id),
+  );
 
   React.useEffect(() => {
     if (isError) {
-      toast.error('Failed to load prices. Retrying...');
+      toast.error("Failed to load prices. Retrying...");
     }
   }, [isError]);
 
   const handleRefresh = () => {
     toast.promise(refresh(), {
-      loading: 'Refreshing prices...',
-      success: 'Prices updated successfully',
-      error: 'Failed to refresh prices'
+      loading: "Refreshing prices...",
+      success: "Prices updated successfully",
+      error: "Failed to refresh prices",
     });
   };
 
@@ -75,11 +77,17 @@ export function PriceTicker() {
                 >
                   <span className="font-medium">{symbol}</span>
                   <span className="text-sm">
-                    {price ? `$${formatPrice(price, symbol)}` : '---'}
+                    {price ? `$${formatPrice(price, symbol)}` : "---"}
                   </span>
                   {change && (
-                    <span className={`flex items-center text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                      {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    <span
+                      className={`flex items-center text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}
+                    >
+                      {isPositive ? (
+                        <TrendingUp className="w-3 h-3" />
+                      ) : (
+                        <TrendingDown className="w-3 h-3" />
+                      )}
                       {Math.abs(change).toFixed(2)}%
                     </span>
                   )}

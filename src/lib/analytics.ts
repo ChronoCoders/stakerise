@@ -1,5 +1,5 @@
-import { ethers } from 'ethers';
-import { TokenType, StakingConfig } from './staking-abi';
+import { ethers } from "ethers";
+import { TokenType, StakingConfig } from "./staking-abi";
 
 export interface AnalyticsData {
   tvl: number;
@@ -20,7 +20,7 @@ export const calculateStakingMetrics = (stakes: any[]): StakingMetrics => {
   let totalRewards = ethers.BigNumber.from(0);
   let totalApy = 0;
 
-  stakes.forEach(stake => {
+  stakes.forEach((stake) => {
     if (stake.isActive) {
       totalStaked = totalStaked.add(stake.amount);
       totalRewards = totalRewards.add(stake.pendingRewards);
@@ -30,23 +30,29 @@ export const calculateStakingMetrics = (stakes: any[]): StakingMetrics => {
     }
   });
 
-  const activeStakes = stakes.filter(s => s.isActive).length;
+  const activeStakes = stakes.filter((s) => s.isActive).length;
   const averageApy = activeStakes > 0 ? totalApy / activeStakes : 0;
 
   return {
     totalStaked,
     totalRewards,
     averageApy,
-    stakingCount: activeStakes
+    stakingCount: activeStakes,
   };
 };
 
-export const formatTokenAmount = (amount: ethers.BigNumber, tokenType: TokenType): string => {
+export const formatTokenAmount = (
+  amount: ethers.BigNumber,
+  tokenType: TokenType,
+): string => {
   const decimals = StakingConfig[tokenType].decimals;
   return ethers.formatUnits(amount, decimals);
 };
 
-export const parseTokenAmount = (amount: string, tokenType: TokenType): ethers.BigNumber => {
+export const parseTokenAmount = (
+  amount: string,
+  tokenType: TokenType,
+): ethers.BigNumber => {
   const decimals = StakingConfig[tokenType].decimals;
   return ethers.parseUnits(amount, decimals);
 };

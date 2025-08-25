@@ -1,39 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, Link, Routes, Route } from 'react-router-dom';
-import { useWeb3 } from '@/contexts/Web3Context';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { Logo } from '@/components/ui/logo';
-import { AnalyticsChart } from '@/components/ui/analytics-chart';
-import { PoolMetrics } from '@/components/ui/pool-metrics';
-import { toast } from 'sonner';
-import { kycService, VerificationStatus } from '@/lib/kyc-service';
-import { notificationService } from '@/lib/notification-service';
-import { 
-  UserCheck, AlertTriangle, Search, Filter, RefreshCw,
-  LayoutDashboard, Users, Settings, Activity
-} from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { Navigate, Link, Routes, Route } from "react-router-dom";
+import { useWeb3 } from "@/contexts/Web3Context";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+import { Logo } from "@/components/ui/logo";
+import { AnalyticsChart } from "@/components/ui/analytics-chart";
+import { PoolMetrics } from "@/components/ui/pool-metrics";
+import { toast } from "sonner";
+import { kycService, VerificationStatus } from "@/lib/kyc-service";
+import { notificationService } from "@/lib/notification-service";
+import {
+  UserCheck,
+  AlertTriangle,
+  Search,
+  Filter,
+  RefreshCw,
+  LayoutDashboard,
+  Users,
+  Settings,
+  Activity,
+} from "lucide-react";
 
 const ADMIN_ADDRESSES = [
   "0x1234567890123456789012345678901234567890", // Replace with actual admin addresses
 ];
 
 const RISK_LEVELS = [
-  { value: 0, label: 'Low Risk' },
-  { value: 1, label: 'Medium-Low Risk' },
-  { value: 2, label: 'Medium Risk' },
-  { value: 3, label: 'Medium-High Risk' },
-  { value: 4, label: 'High Risk' },
-  { value: 5, label: 'Very High Risk' }
+  { value: 0, label: "Low Risk" },
+  { value: 1, label: "Medium-Low Risk" },
+  { value: 2, label: "Medium Risk" },
+  { value: 3, label: "Medium-High Risk" },
+  { value: 4, label: "High Risk" },
+  { value: 5, label: "Very High Risk" },
 ];
 
 function KYCDashboard() {
   const [pendingVerifications, setPendingVerifications] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<VerificationStatus | 'all'>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<VerificationStatus | "all">(
+    "all",
+  );
   const [loading, setLoading] = useState(false);
 
   const loadVerifications = async () => {
@@ -42,8 +64,8 @@ function KYCDashboard() {
       const verifications = await kycService.getAllVerifications();
       setPendingVerifications(verifications);
     } catch (error) {
-      console.error('Failed to load verifications:', error);
-      toast.error('Failed to load verification requests');
+      console.error("Failed to load verifications:", error);
+      toast.error("Failed to load verification requests");
     } finally {
       setLoading(false);
     }
@@ -53,28 +75,32 @@ function KYCDashboard() {
     loadVerifications();
   }, []);
 
-  const handleVerificationAction = async (userId: string, status: VerificationStatus, riskLevel?: number) => {
+  const handleVerificationAction = async (
+    userId: string,
+    status: VerificationStatus,
+    riskLevel?: number,
+  ) => {
     try {
       await kycService.updateVerificationStatus(userId, status, riskLevel);
 
       // Get user's notification settings
       const settings = await notificationService.getUserSettings(userId);
-      
+
       if (settings?.kyc_status_updates && settings?.email) {
         // Send email notification based on status
-        if (status === 'approved') {
+        if (status === "approved") {
           await notificationService.sendEmail(
-            'kyc_approved',
+            "kyc_approved",
             settings.email,
-            'KYC Verification Approved',
-            'Your KYC verification has been approved. You can now access all platform features.'
+            "KYC Verification Approved",
+            "Your KYC verification has been approved. You can now access all platform features.",
           );
-        } else if (status === 'rejected') {
+        } else if (status === "rejected") {
           await notificationService.sendEmail(
-            'kyc_rejected',
+            "kyc_rejected",
             settings.email,
-            'KYC Verification Rejected',
-            'Your KYC verification has been rejected. Please review and resubmit your documents.'
+            "KYC Verification Rejected",
+            "Your KYC verification has been rejected. Please review and resubmit your documents.",
           );
         }
       }
@@ -82,22 +108,26 @@ function KYCDashboard() {
       toast.success(`Verification ${status} successfully`);
       loadVerifications();
     } catch (error) {
-      console.error('Failed to update verification:', error);
-      toast.error('Failed to update verification status');
+      console.error("Failed to update verification:", error);
+      toast.error("Failed to update verification status");
     }
   };
 
-  const filteredVerifications = pendingVerifications
-    .filter(v => 
-      (statusFilter === 'all' || v.status === statusFilter) &&
-      (searchQuery === '' || 
+  const filteredVerifications = pendingVerifications.filter(
+    (v) =>
+      (statusFilter === "all" || v.status === statusFilter) &&
+      (searchQuery === "" ||
         v.user_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        v.documents.some(d => 
-          d.document_number?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          d.issuing_country?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      )
-    );
+        v.documents.some(
+          (d) =>
+            d.document_number
+              ?.toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            d.issuing_country
+              ?.toLowerCase()
+              .includes(searchQuery.toLowerCase()),
+        )),
+  );
 
   return (
     <div className="space-y-6">
@@ -109,7 +139,10 @@ function KYCDashboard() {
               <h3 className="font-semibold">Pending Verifications</h3>
             </div>
             <p className="text-2xl font-bold">
-              {pendingVerifications.filter(v => v.status === 'pending').length}
+              {
+                pendingVerifications.filter((v) => v.status === "pending")
+                  .length
+              }
             </p>
           </CardContent>
         </Card>
@@ -120,7 +153,7 @@ function KYCDashboard() {
               <h3 className="font-semibold">High Risk Users</h3>
             </div>
             <p className="text-2xl font-bold">
-              {pendingVerifications.filter(v => v.risk_level >= 4).length}
+              {pendingVerifications.filter((v) => v.risk_level >= 4).length}
             </p>
           </CardContent>
         </Card>
@@ -131,10 +164,14 @@ function KYCDashboard() {
               <h3 className="font-semibold">Approved Today</h3>
             </div>
             <p className="text-2xl font-bold">
-              {pendingVerifications.filter(v => 
-                v.status === 'approved' && 
-                new Date(v.verification_date).toDateString() === new Date().toDateString()
-              ).length}
+              {
+                pendingVerifications.filter(
+                  (v) =>
+                    v.status === "approved" &&
+                    new Date(v.verification_date).toDateString() ===
+                      new Date().toDateString(),
+                ).length
+              }
             </p>
           </CardContent>
         </Card>
@@ -162,7 +199,9 @@ function KYCDashboard() {
             </div>
             <Select
               value={statusFilter}
-              onValueChange={(value: VerificationStatus | 'all') => setStatusFilter(value)}
+              onValueChange={(value: VerificationStatus | "all") =>
+                setStatusFilter(value)
+              }
             >
               <SelectTrigger className="w-[180px]">
                 <Filter className="w-4 h-4 mr-2" />
@@ -195,33 +234,47 @@ function KYCDashboard() {
                 {filteredVerifications.map((verification) => (
                   <TableRow key={verification.id}>
                     <TableCell className="font-mono">
-                      {verification.user_id.slice(0, 6)}...{verification.user_id.slice(-4)}
+                      {verification.user_id.slice(0, 6)}...
+                      {verification.user_id.slice(-4)}
                     </TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                        ${verification.status === 'approved' ? 'bg-green-100 text-green-800' :
-                        verification.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                        verification.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        verification.status === 'in_review' ? 'bg-blue-100 text-blue-800' :
-                        'bg-gray-100 text-gray-800'}`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                        ${
+                          verification.status === "approved"
+                            ? "bg-green-100 text-green-800"
+                            : verification.status === "rejected"
+                              ? "bg-red-100 text-red-800"
+                              : verification.status === "pending"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : verification.status === "in_review"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
                         {verification.status}
                       </span>
                     </TableCell>
                     <TableCell>
                       <Select
                         value={verification.risk_level.toString()}
-                        onValueChange={(value) => handleVerificationAction(
-                          verification.user_id,
-                          verification.status,
-                          parseInt(value)
-                        )}
+                        onValueChange={(value) =>
+                          handleVerificationAction(
+                            verification.user_id,
+                            verification.status,
+                            parseInt(value),
+                          )
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           {RISK_LEVELS.map((level) => (
-                            <SelectItem key={level.value} value={level.value.toString()}>
+                            <SelectItem
+                              key={level.value}
+                              value={level.value.toString()}
+                            >
                               {level.label}
                             </SelectItem>
                           ))}
@@ -246,16 +299,26 @@ function KYCDashboard() {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleVerificationAction(verification.user_id, 'approved')}
-                          disabled={verification.status === 'approved'}
+                          onClick={() =>
+                            handleVerificationAction(
+                              verification.user_id,
+                              "approved",
+                            )
+                          }
+                          disabled={verification.status === "approved"}
                         >
                           Approve
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleVerificationAction(verification.user_id, 'rejected')}
-                          disabled={verification.status === 'rejected'}
+                          onClick={() =>
+                            handleVerificationAction(
+                              verification.user_id,
+                              "rejected",
+                            )
+                          }
+                          disabled={verification.status === "rejected"}
                         >
                           Reject
                         </Button>
@@ -275,9 +338,9 @@ function KYCDashboard() {
             <h2 className="text-lg font-semibold mb-6">Verification Trends</h2>
             <AnalyticsChart
               data={[
-                { date: '2025-03', approved: 150, rejected: 20, pending: 45 },
-                { date: '2025-04', approved: 180, rejected: 25, pending: 55 },
-                { date: '2025-05', approved: 220, rejected: 30, pending: 65 }
+                { date: "2025-03", approved: 150, rejected: 20, pending: 45 },
+                { date: "2025-04", approved: 180, rejected: 25, pending: 55 },
+                { date: "2025-05", approved: 220, rejected: 30, pending: 65 },
               ]}
               title="Monthly Verification Statistics"
             />
@@ -288,9 +351,9 @@ function KYCDashboard() {
             <h2 className="text-lg font-semibold mb-6">Risk Distribution</h2>
             <AnalyticsChart
               data={[
-                { level: 'Low', count: 450 },
-                { level: 'Medium', count: 280 },
-                { level: 'High', count: 120 }
+                { level: "Low", count: 450 },
+                { level: "Medium", count: 280 },
+                { level: "High", count: 120 },
               ]}
               title="User Risk Levels"
             />
@@ -316,7 +379,9 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (account) {
-      const hasAccess = ADMIN_ADDRESSES.map(addr => addr.toLowerCase()).includes(account.toLowerCase());
+      const hasAccess = ADMIN_ADDRESSES.map((addr) =>
+        addr.toLowerCase(),
+      ).includes(account.toLowerCase());
       setIsAdmin(hasAccess);
       if (!hasAccess) {
         toast.error("Unauthorized access attempt");
@@ -332,7 +397,9 @@ export default function AdminDashboard() {
             <div className="flex justify-center mb-6">
               <Logo />
             </div>
-            <h1 className="text-2xl font-bold text-center mb-6">Admin Access</h1>
+            <h1 className="text-2xl font-bold text-center mb-6">
+              Admin Access
+            </h1>
             <Button className="w-full" onClick={connectWallet}>
               Connect Wallet
             </Button>
@@ -359,7 +426,10 @@ export default function AdminDashboard() {
               <p className="text-sm text-muted-foreground">
                 Connected: {account.slice(0, 6)}...{account.slice(-4)}
               </p>
-              <Button variant="outline" onClick={() => window.location.reload()}>
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+              >
                 Disconnect
               </Button>
             </div>

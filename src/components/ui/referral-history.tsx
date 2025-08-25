@@ -1,10 +1,21 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './table';
-import { Button } from './button';
-import { RefreshCw } from 'lucide-react';
-import { referralService, Referral, ReferralReward } from '@/lib/referral-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "./table";
+import { Button } from "./button";
+import { RefreshCw } from "lucide-react";
+import {
+  referralService,
+  Referral,
+  ReferralReward,
+} from "@/lib/referral-service";
+import { toast } from "sonner";
 
 export function ReferralHistory() {
   const [referrals, setReferrals] = React.useState<Referral[]>([]);
@@ -16,13 +27,13 @@ export function ReferralHistory() {
       setLoading(true);
       const [referralData, rewardData] = await Promise.all([
         referralService.getReferrals(),
-        referralService.getRewards()
+        referralService.getRewards(),
       ]);
       setReferrals(referralData);
       setRewards(rewardData);
     } catch (error) {
-      console.error('Failed to load referral data:', error);
-      toast.error('Failed to load referral history');
+      console.error("Failed to load referral data:", error);
+      toast.error("Failed to load referral history");
     } finally {
       setLoading(false);
     }
@@ -55,35 +66,48 @@ export function ReferralHistory() {
             </TableHeader>
             <TableBody>
               {referrals.map((referral) => {
-                const reward = rewards.find(r => r.referral_id === referral.id);
-                
+                const reward = rewards.find(
+                  (r) => r.referral_id === referral.id,
+                );
+
                 return (
                   <TableRow key={referral.id}>
                     <TableCell>
                       {new Date(referral.created_at).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="font-mono">
-                      {referral.referred_id.slice(0, 6)}...{referral.referred_id.slice(-4)}
+                      {referral.referred_id.slice(0, 6)}...
+                      {referral.referred_id.slice(-4)}
                     </TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                        ${referral.status === 'active' ? 'bg-green-100 text-green-800' :
-                        referral.status === 'rewarded' ? 'bg-purple-100 text-purple-800' :
-                        'bg-yellow-100 text-yellow-800'}`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                        ${
+                          referral.status === "active"
+                            ? "bg-green-100 text-green-800"
+                            : referral.status === "rewarded"
+                              ? "bg-purple-100 text-purple-800"
+                              : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
                         {referral.status}
                       </span>
                     </TableCell>
                     <TableCell>
                       {reward ? (
                         <div className="flex items-center gap-2">
-                          <span>{reward.amount} {reward.token_type}</span>
-                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                            ${reward.status === 'processed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                          <span>
+                            {reward.amount} {reward.token_type}
+                          </span>
+                          <span
+                            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                            ${reward.status === "processed" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
+                          >
                             {reward.status}
                           </span>
                         </div>
                       ) : (
-                        'N/A'
+                        "N/A"
                       )}
                     </TableCell>
                   </TableRow>
@@ -91,8 +115,11 @@ export function ReferralHistory() {
               })}
               {referrals.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-muted-foreground">
-                    {loading ? 'Loading referrals...' : 'No referrals found'}
+                  <TableCell
+                    colSpan={4}
+                    className="text-center text-muted-foreground"
+                  >
+                    {loading ? "Loading referrals..." : "No referrals found"}
                   </TableCell>
                 </TableRow>
               )}

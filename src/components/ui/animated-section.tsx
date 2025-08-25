@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
@@ -8,7 +8,11 @@ interface AnimatedSectionProps {
   delay?: number;
 }
 
-export function AnimatedSection({ children, className = '', delay = 0 }: AnimatedSectionProps) {
+export function AnimatedSection({
+  children,
+  className = "",
+  delay = 0,
+}: AnimatedSectionProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,

@@ -1,15 +1,15 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Users, Gift, TrendingUp, Clock } from 'lucide-react';
-import { referralService, ReferralStats } from '@/lib/referral-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import { Users, Gift, TrendingUp, Clock } from "lucide-react";
+import { referralService, ReferralStats } from "@/lib/referral-service";
+import { toast } from "sonner";
 
 export function ReferralStats() {
   const [stats, setStats] = React.useState<ReferralStats>({
     totalReferrals: 0,
     activeReferrals: 0,
     totalRewards: 0,
-    pendingRewards: 0
+    pendingRewards: 0,
   });
   const [loading, setLoading] = React.useState(true);
 
@@ -19,8 +19,8 @@ export function ReferralStats() {
         const data = await referralService.getReferralStats();
         setStats(data);
       } catch (error) {
-        console.error('Failed to load referral stats:', error);
-        toast.error('Failed to load referral statistics');
+        console.error("Failed to load referral stats:", error);
+        toast.error("Failed to load referral statistics");
       } finally {
         setLoading(false);
       }
@@ -38,7 +38,7 @@ export function ReferralStats() {
             <h3 className="font-semibold">Total Referrals</h3>
           </div>
           <p className="text-2xl font-bold">
-            {loading ? '...' : stats.totalReferrals}
+            {loading ? "..." : stats.totalReferrals}
           </p>
         </CardContent>
       </Card>
@@ -50,7 +50,7 @@ export function ReferralStats() {
             <h3 className="font-semibold">Active Referrals</h3>
           </div>
           <p className="text-2xl font-bold">
-            {loading ? '...' : stats.activeReferrals}
+            {loading ? "..." : stats.activeReferrals}
           </p>
         </CardContent>
       </Card>
@@ -62,7 +62,7 @@ export function ReferralStats() {
             <h3 className="font-semibold">Total Rewards</h3>
           </div>
           <p className="text-2xl font-bold">
-            ${loading ? '...' : stats.totalRewards.toFixed(2)}
+            ${loading ? "..." : stats.totalRewards.toFixed(2)}
           </p>
         </CardContent>
       </Card>
@@ -74,7 +74,7 @@ export function ReferralStats() {
             <h3 className="font-semibold">Pending Rewards</h3>
           </div>
           <p className="text-2xl font-bold">
-            ${loading ? '...' : stats.pendingRewards.toFixed(2)}
+            ${loading ? "..." : stats.pendingRewards.toFixed(2)}
           </p>
         </CardContent>
       </Card>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TokenType, StakingConfig } from '@/lib/staking-abi';
-import { Coins, ArrowRight } from 'lucide-react';
+import { TokenType, StakingConfig } from "@/lib/staking-abi";
+import { Coins, ArrowRight } from "lucide-react";
 
 interface Reward {
   stakeIndex: number;
@@ -17,7 +17,11 @@ interface RewardsPanelProps {
   onCompound: (stakeIndex: number) => Promise<void>;
 }
 
-export function RewardsPanel({ rewards, onClaim, onCompound }: RewardsPanelProps) {
+export function RewardsPanel({
+  rewards,
+  onClaim,
+  onCompound,
+}: RewardsPanelProps) {
   return (
     <Card>
       <CardContent className="pt-6">

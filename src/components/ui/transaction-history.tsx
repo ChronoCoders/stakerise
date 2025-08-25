@@ -1,11 +1,24 @@
-import React from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import React from "react";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Transaction } from '@/lib/contract-service';
-import { StakingConfig, TokenType } from '@/lib/staking-abi';
-import { ArrowUpDown, Search } from 'lucide-react';
+import { Transaction } from "@/lib/contract-service";
+import { StakingConfig, TokenType } from "@/lib/staking-abi";
+import { ArrowUpDown, Search } from "lucide-react";
 
 interface TransactionHistoryProps {
   transactions: Transaction[];
@@ -14,7 +27,12 @@ interface TransactionHistoryProps {
   onSearch: (query: string) => void;
 }
 
-export function TransactionHistory({ transactions, onSort, onFilter, onSearch }: TransactionHistoryProps) {
+export function TransactionHistory({
+  transactions,
+  onSort,
+  onFilter,
+  onSearch,
+}: TransactionHistoryProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -46,14 +64,22 @@ export function TransactionHistory({ transactions, onSort, onFilter, onSearch }:
           <TableHeader>
             <TableRow>
               <TableHead>
-                <Button variant="ghost" onClick={() => onSort('timestamp')} className="h-8 flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  onClick={() => onSort("timestamp")}
+                  className="h-8 flex items-center gap-1"
+                >
                   Date <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Token</TableHead>
               <TableHead>
-                <Button variant="ghost" onClick={() => onSort('amount')} className="h-8 flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  onClick={() => onSort("amount")}
+                  className="h-8 flex items-center gap-1"
+                >
                   Amount <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
@@ -69,11 +95,15 @@ export function TransactionHistory({ transactions, onSort, onFilter, onSearch }:
                 <TableCell>{StakingConfig[tx.tokenType].symbol}</TableCell>
                 <TableCell>{tx.amount}</TableCell>
                 <TableCell>
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                    tx.status === 'completed' ? 'bg-green-100 text-green-800' :
-                    tx.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      tx.status === "completed"
+                        ? "bg-green-100 text-green-800"
+                        : tx.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {tx.status}
                   </span>
                 </TableCell>
