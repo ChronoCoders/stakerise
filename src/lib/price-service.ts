@@ -37,7 +37,7 @@ updateSimulatedPrices();
 setInterval(updateSimulatedPrices, 3000); // Update every 3 seconds for more dynamic display
 
 // Generate historical data for a token
-function generateHistoricalData(tokenId: string, days: number = 7): { date: number; price: number }[] {
+function generateHistoricalData(tokenId: string, days = 7): { date: number; price: number }[] {
   const now = Date.now();
   const startTime = now - days * 24 * 60 * 60 * 1000;
   const hourlyIntervals = days * 24;
@@ -87,7 +87,7 @@ export function useTokenPrices(tokens: string[]) {
   };
 }
 
-export function useTokenChart(token: string, days: number = 7) {
+export function useTokenChart(token: string, days = 7) {
   const { data, error } = useSWR(
     `historical-${token}-${days}`,
     () => generateHistoricalData(token, days),
