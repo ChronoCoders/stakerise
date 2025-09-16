@@ -403,11 +403,9 @@ By using StakeRise, you agree to our [Terms of Service](https://stakerise.io/ter
 
 [**🚀 Launch App**](https://stakerise.io) • [**📖 Read Docs**](./docs/) • [**💬 Join Community**](https://discord.gg/stakerise)
 
----
-
 **Made with ❤️ by the ChronoCoders Team**
 
 *© 2025 StakeRise. All Rights Reserved.*
 
 </div>
-```
+
