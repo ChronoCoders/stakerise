@@ -10,8 +10,8 @@ name = "javascript"
     "vitest"
   ]
 
-[[transformers]]
-name = "standardjs"
+[[analyzers]]
+name = "docker"
 
 [[transformers]]
-name = "prettier"
+name = "standardjs"
