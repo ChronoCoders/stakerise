@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![StakeRise Logo](https://via.placeholder.com/400x150/1a1a1a/00ff88?text=STAKERISE)
-
 **Secure, Multi-Chain Staking Platform for Passive Crypto Income**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
