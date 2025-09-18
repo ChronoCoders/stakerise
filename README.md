@@ -11,24 +11,28 @@ StakeRise is a next-generation decentralized staking platform that enables secur
 ## ✨ Features
 
 ### 🌐 Multi-Chain Support
+
 - **Ethereum (ETH)** - Native ETH 2.0 staking
 - **Polygon (MATIC)** - Low-cost staking with high yields
 - **Binance Smart Chain (BNB)** - Cross-chain staking opportunities
 - **More chains coming soon** - Avalanche, Solana, Cardano
 
 ### 💰 Flexible Staking Options
+
 - **Flexible Staking** - Stake and unstake anytime
 - **Fixed-Term Staking** - Higher yields with locked periods (30, 90, 180, 365 days)
 - **Liquid Staking** - Receive stTokens while earning rewards
 - **Auto-Compound** - Automatically reinvest rewards for maximum returns
 
 ### 📊 Advanced Analytics
+
 - **Real-Time Dashboard** - Track all your staking positions
 - **Yield Optimization** - AI-powered recommendations
 - **Historical Performance** - Detailed earning reports
 - **Portfolio Insights** - Comprehensive asset analysis
 
 ### 🔒 Security First
+
 - **Audited Smart Contracts** - Professionally reviewed and tested
 - **Non-Custodial** - You always control your funds
 - **Emergency Pause** - Built-in safety mechanisms
@@ -39,6 +43,7 @@ StakeRise is a next-generation decentralized staking platform that enables secur
 ### Prerequisites
 
 Make sure you have the following installed:
+
 - **Node.js** v18.0.0 or later
 - **npm** v8.0.0 or later
 - **Git** latest version
@@ -47,45 +52,49 @@ Make sure you have the following installed:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/ChronoCoders/stakerise.git
    cd stakerise
    ```
 
 2. **Install dependencies**
+
    ```bash
    # Install root dependencies
    npm install
-   
+
    # Install frontend dependencies
    cd frontend && npm install && cd ..
-   
+
    # Install backend dependencies
    cd backend && npm install && cd ..
    ```
 
 3. **Set up environment variables**
+
    ```bash
    # Copy environment templates
    cp .env.example .env
    cp frontend/.env.example frontend/.env
    cp backend/.env.example backend/.env
-   
+
    # Edit the .env files with your configuration
    nano .env
    ```
 
 4. **Start the development environment**
+
    ```bash
    # Start local blockchain (Hardhat network)
    npm run blockchain:start
-   
+
    # Deploy contracts to local network
    npm run contracts:deploy:local
-   
+
    # Start backend server
    npm run backend:dev
-   
+
    # Start frontend development server
    npm run frontend:dev
    ```
@@ -222,6 +231,7 @@ npm run deploy:mainnet      # Deploy to mainnet
 StakeRise includes comprehensive testing across all components:
 
 ### Smart Contract Tests
+
 ```bash
 # Run all contract tests
 npm run test:contracts
@@ -237,6 +247,7 @@ npx hardhat test --network polygon
 ```
 
 ### Frontend Tests
+
 ```bash
 # Run frontend tests
 cd frontend && npm test
@@ -249,6 +260,7 @@ cd frontend && npm run test:coverage
 ```
 
 ### Backend Tests
+
 ```bash
 # Run backend tests
 cd backend && npm test
@@ -262,39 +274,40 @@ cd backend && npm run test:load
 
 ## 🌐 Supported Networks
 
-| Network | Chain ID | RPC URL | Block Explorer |
-|---------|----------|---------|----------------|
-| Ethereum Mainnet | 1 | https://mainnet.infura.io/v3/ | https://etherscan.io |
-| Ethereum Goerli | 5 | https://goerli.infura.io/v3/ | https://goerli.etherscan.io |
-| Polygon Mainnet | 137 | https://polygon-rpc.com | https://polygonscan.com |
-| Polygon Mumbai | 80001 | https://rpc-mumbai.maticvigil.com | https://mumbai.polygonscan.com |
-| BSC Mainnet | 56 | https://bsc-dataseed.binance.org | https://bscscan.com |
-| BSC Testnet | 97 | https://data-seed-prebsc-1-s1.binance.org:8545 | https://testnet.bscscan.com |
-| Hardhat Local | 31337 | http://localhost:8545 | - |
+| Network          | Chain ID | RPC URL                                        | Block Explorer                 |
+| ---------------- | -------- | ---------------------------------------------- | ------------------------------ |
+| Ethereum Mainnet | 1        | https://mainnet.infura.io/v3/                  | https://etherscan.io           |
+| Ethereum Goerli  | 5        | https://goerli.infura.io/v3/                   | https://goerli.etherscan.io    |
+| Polygon Mainnet  | 137      | https://polygon-rpc.com                        | https://polygonscan.com        |
+| Polygon Mumbai   | 80001    | https://rpc-mumbai.maticvigil.com              | https://mumbai.polygonscan.com |
+| BSC Mainnet      | 56       | https://bsc-dataseed.binance.org               | https://bscscan.com            |
+| BSC Testnet      | 97       | https://data-seed-prebsc-1-s1.binance.org:8545 | https://testnet.bscscan.com    |
+| Hardhat Local    | 31337    | http://localhost:8545                          | -                              |
 
 ## 📊 Smart Contract Addresses
 
 ### Mainnet Deployments
 
-| Contract | Ethereum | Polygon | BSC |
-|----------|----------|---------|-----|
-| StakingPool | `0x...` | `0x...` | `0x...` |
-| RewardCalculator | `0x...` | `0x...` | `0x...` |
-| GovernanceToken | `0x...` | `0x...` | `0x...` |
+| Contract         | Ethereum | Polygon | BSC     |
+| ---------------- | -------- | ------- | ------- |
+| StakingPool      | `0x...`  | `0x...` | `0x...` |
+| RewardCalculator | `0x...`  | `0x...` | `0x...` |
+| GovernanceToken  | `0x...`  | `0x...` | `0x...` |
 
 ### Testnet Deployments
 
-| Contract | Goerli | Mumbai | BSC Testnet |
-|----------|--------|--------|-------------|
-| StakingPool | `0x...` | `0x...` | `0x...` |
-| RewardCalculator | `0x...` | `0x...` | `0x...` |
-| GovernanceToken | `0x...` | `0x...` | `0x...` |
+| Contract         | Goerli  | Mumbai  | BSC Testnet |
+| ---------------- | ------- | ------- | ----------- |
+| StakingPool      | `0x...` | `0x...` | `0x...`     |
+| RewardCalculator | `0x...` | `0x...` | `0x...`     |
+| GovernanceToken  | `0x...` | `0x...` | `0x...`     |
 
 ## 🔒 Security
 
 Security is our top priority. StakeRise implements multiple security layers:
 
 ### Smart Contract Security
+
 - ✅ **Reentrancy Protection** - All state-changing functions protected
 - ✅ **Access Control** - Role-based permissions system
 - ✅ **Emergency Pause** - Circuit breaker for critical situations
@@ -302,6 +315,7 @@ Security is our top priority. StakeRise implements multiple security layers:
 - ✅ **Input Validation** - Comprehensive parameter checking
 
 ### Platform Security
+
 - ✅ **Non-Custodial** - Users maintain full control of funds
 - ✅ **Rate Limiting** - API protection against abuse
 - ✅ **Input Sanitization** - Frontend and backend validation
@@ -309,11 +323,13 @@ Security is our top priority. StakeRise implements multiple security layers:
 - ✅ **CSP Headers** - Content Security Policy protection
 
 ### Audit Status
+
 - 🔍 **Internal Audit** - Completed ✅
 - 🔍 **External Audit** - Scheduled for Q2 2025
 - 🔍 **Bug Bounty** - Coming soon
 
 ### Report Security Issues
+
 If you discover a security vulnerability, please email us at [security@stakerise.io](mailto:security@stakerise.io). Do not open a public issue.
 
 ## 🤝 Contributing
@@ -347,6 +363,7 @@ Comprehensive documentation is available in the `docs/` directory:
 - 📊 **[Smart Contract Docs](docs/CONTRACTS.md)** - Contract documentation
 
 ### External Resources
+
 - 🌍 **[Official Website](https://stakerise.io)** - Main platform
 - 📱 **[User Guide](https://docs.stakerise.io)** - How to use StakeRise
 - 💬 **[Community Discord](https://discord.gg/stakerise)** - Join the community
@@ -355,12 +372,14 @@ Comprehensive documentation is available in the `docs/` directory:
 ## 🗓️ Roadmap
 
 ### 2025 Q1 - Foundation ✅
+
 - [x] Core smart contract development
 - [x] Basic frontend interface
 - [x] Ethereum mainnet integration
 - [x] Security audit preparation
 
 ### 2025 Q2 - Multi-Chain Expansion 🚧
+
 - [ ] Polygon network integration
 - [ ] BSC network support
 - [ ] Enhanced analytics dashboard
@@ -368,6 +387,7 @@ Comprehensive documentation is available in the `docs/` directory:
 - [ ] External security audit
 
 ### 2025 Q3 - Advanced Features 📋
+
 - [ ] Liquid staking tokens
 - [ ] Cross-chain bridge integration
 - [ ] Governance token launch
@@ -375,6 +395,7 @@ Comprehensive documentation is available in the `docs/` directory:
 - [ ] Mobile app development
 
 ### 2025 Q4 - Ecosystem Growth 🔮
+
 - [ ] Additional chain support (Avalanche, Solana)
 - [ ] Institutional staking features
 - [ ] Advanced portfolio management
@@ -384,12 +405,14 @@ Comprehensive documentation is available in the `docs/` directory:
 ## 📊 Statistics
 
 ### Platform Metrics
+
 - 💰 **Total Value Locked**: $0 (Launch pending)
 - 👥 **Active Stakers**: 0 (Launch pending)
 - 🌍 **Supported Networks**: 3 (Ethereum, Polygon, BSC)
 - 🏆 **Average APY**: 4-12% (varies by network)
 
 ### Development Stats
+
 - 📝 **Smart Contracts**: 15+ contracts
 - 🧪 **Test Coverage**: >95%
 - 🔍 **Security Audits**: 1 internal, 1 external pending
