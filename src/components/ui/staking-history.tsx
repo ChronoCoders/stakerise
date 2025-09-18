@@ -1,12 +1,19 @@
-import React from 'react';
-import { Card, CardContent } from './card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './table';
-import { Button } from './button';
-import { RefreshCw, History, ArrowUpDown, Loader2 } from 'lucide-react';
-import { useWeb3 } from '@/contexts/Web3Context';
-import { TokenType, StakingConfig } from '@/lib/staking-abi';
-import { activityService } from '@/lib/activity-service';
-import { toast } from 'sonner';
+import React from "react";
+import { Card, CardContent } from "./card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "./table";
+import { Button } from "./button";
+import { RefreshCw, History, ArrowUpDown, Loader2 } from "lucide-react";
+import { useWeb3 } from "@/contexts/Web3Context";
+import { TokenType, StakingConfig } from "@/lib/staking-abi";
+import { activityService } from "@/lib/activity-service";
+import { toast } from "sonner";
 
 interface StakeInfo {
   index: number;
@@ -25,8 +32,8 @@ export function StakingHistory() {
   const [loading, setLoading] = React.useState(false);
   const [actionLoading, setActionLoading] = React.useState<number | null>(null);
   const [sortConfig, setSortConfig] = React.useState({
-    key: 'startTime',
-    direction: 'desc'
+    key: "startTime",
+    direction: "desc",
   });
 
   const loadStakes = async () => {
@@ -37,8 +44,8 @@ export function StakingHistory() {
       const userStakes = await stakingService.getUserStakes();
       setStakes(userStakes);
     } catch (error) {
-      console.error('Failed to load stakes:', error);
-      toast.error('Failed to load staking history');
+      console.error("Failed to load stakes:", error);
+      toast.error("Failed to load staking history");
     } finally {
       setLoading(false);
     }
@@ -55,13 +62,13 @@ export function StakingHistory() {
     setSortConfig({
       key,
       direction:
-        sortConfig.key === key && sortConfig.direction === 'asc'
-          ? 'desc'
-          : 'asc'
+        sortConfig.key === key && sortConfig.direction === "asc"
+          ? "desc"
+          : "asc",
     });
 
     const sortedStakes = [...stakes].sort((a: any, b: any) => {
-      if (sortConfig.direction === 'asc') {
+      if (sortConfig.direction === "asc") {
         return a[key] > b[key] ? 1 : -1;
       }
       return a[key] < b[key] ? 1 : -1;
@@ -77,18 +84,18 @@ export function StakingHistory() {
       setActionLoading(stakeIndex);
       const stake = stakes[stakeIndex];
       await stakingService.withdrawStake(stakeIndex);
-      
+
       // Log activity
       await activityService.logActivity(
-        'token_unstaked',
-        `Unstaked ${stake.amount} ${StakingConfig[stake.tokenType].symbol}`
+        "token_unstaked",
+        `Unstaked ${stake.amount} ${StakingConfig[stake.tokenType].symbol}`,
       );
 
-      toast.success('Successfully unstaked tokens');
+      toast.success("Successfully unstaked tokens");
       loadStakes();
     } catch (error) {
-      console.error('Failed to unstake:', error);
-      toast.error('Failed to unstake tokens');
+      console.error("Failed to unstake:", error);
+      toast.error("Failed to unstake tokens");
     } finally {
       setActionLoading(null);
     }
@@ -104,30 +111,32 @@ export function StakingHistory() {
 
       // Log activity
       await activityService.logActivity(
-        'rewards_claimed',
-        `Claimed ${stake.pendingRewards} ${StakingConfig[stake.tokenType].symbol} rewards`
+        "rewards_claimed",
+        `Claimed ${stake.pendingRewards} ${StakingConfig[stake.tokenType].symbol} rewards`,
       );
 
-      toast.success('Successfully claimed rewards');
+      toast.success("Successfully claimed rewards");
       loadStakes();
     } catch (error) {
-      console.error('Failed to claim rewards:', error);
-      toast.error('Failed to claim rewards');
+      console.error("Failed to claim rewards:", error);
+      toast.error("Failed to claim rewards");
     } finally {
       setActionLoading(null);
     }
   };
 
   const calculateTimeRemaining = (startTime: Date, duration: number) => {
-    const endTime = new Date(startTime.getTime() + duration * 30 * 24 * 60 * 60 * 1000);
+    const endTime = new Date(
+      startTime.getTime() + duration * 30 * 24 * 60 * 60 * 1000,
+    );
     const now = new Date();
     const remaining = endTime.getTime() - now.getTime();
-    
-    if (remaining <= 0) return 'Matured';
-    
+
+    if (remaining <= 0) return "Matured";
+
     const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
     const months = Math.floor(days / 30);
-    
+
     if (months > 0) {
       return `${months}m ${days % 30}d`;
     }
@@ -155,7 +164,7 @@ export function StakingHistory() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('startTime')}
+                    onClick={() => handleSort("startTime")}
                     className="h-8 flex items-center gap-1"
                   >
                     Start Date <ArrowUpDown className="h-4 w-4" />
@@ -165,7 +174,7 @@ export function StakingHistory() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('amount')}
+                    onClick={() => handleSort("amount")}
                     className="h-8 flex items-center gap-1"
                   >
                     Amount <ArrowUpDown className="h-4 w-4" />
@@ -183,9 +192,12 @@ export function StakingHistory() {
               {stakes.map((stake) => {
                 const config = StakingConfig[stake.tokenType];
                 const tier = config.tiers[stake.tier];
-                const timeRemaining = calculateTimeRemaining(stake.startTime, tier.duration);
-                const isMatured = timeRemaining === 'Matured';
-                
+                const timeRemaining = calculateTimeRemaining(
+                  stake.startTime,
+                  tier.duration,
+                );
+                const isMatured = timeRemaining === "Matured";
+
                 return (
                   <TableRow key={stake.index}>
                     <TableCell>
@@ -204,16 +216,16 @@ export function StakingHistory() {
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                           stake.isActive
                             ? isMatured
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-blue-100 text-blue-800'
-                            : 'bg-gray-100 text-gray-800'
+                              ? "bg-green-100 text-green-800"
+                              : "bg-blue-100 text-blue-800"
+                            : "bg-gray-100 text-gray-800"
                         }`}
                       >
                         {stake.isActive
                           ? isMatured
-                            ? 'Matured'
-                            : 'Active'
-                          : 'Ended'}
+                            ? "Matured"
+                            : "Active"
+                          : "Ended"}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -231,19 +243,21 @@ export function StakingHistory() {
                           {actionLoading === stake.index ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
                           ) : (
-                            'Claim'
+                            "Claim"
                           )}
                         </Button>
                         <Button
                           size="sm"
-                          variant={isMatured ? 'default' : 'outline'}
+                          variant={isMatured ? "default" : "outline"}
                           onClick={() => handleUnstake(stake.index)}
-                          disabled={actionLoading === stake.index || !stake.isActive}
+                          disabled={
+                            actionLoading === stake.index || !stake.isActive
+                          }
                         >
                           {actionLoading === stake.index ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
                           ) : (
-                            'Unstake'
+                            "Unstake"
                           )}
                         </Button>
                       </div>
@@ -257,7 +271,7 @@ export function StakingHistory() {
                     colSpan={9}
                     className="text-center text-muted-foreground"
                   >
-                    {loading ? 'Loading stakes...' : 'No staking history found'}
+                    {loading ? "Loading stakes..." : "No staking history found"}
                   </TableCell>
                 </TableRow>
               )}
