@@ -34,6 +34,7 @@ StakeRise is a **next-generation decentralized staking platform** that enables c
 ## 🌟 **Key Features**
 
 ### **🔗 Multi-Chain Staking**
+
 ```
 Ethereum (ETH) ━━━━━━━━━━━━━━━━━━━ 5.2% APY
 Polygon (MATIC) ━━━━━━━━━━━━━━━━━ 8.7% APY
@@ -42,18 +43,21 @@ Coming Soon: Solana, Cardano...
 ```
 
 ### **💰 Flexible Staking Options**
+
 - **Flexible Staking** - Unstake anytime with daily rewards
 - **Fixed Terms** - Lock assets for 30/90/180 days for higher APY
 - **Liquid Staking** - Receive derivative tokens while earning rewards
 - **Auto-Compound** - Reinvest rewards automatically
 
 ### **📈 Advanced Analytics**
+
 - Real-time portfolio tracking
 - Reward history and projections
 - Performance comparisons
 - Risk assessment tools
 
 ### **🛡️ Security Features**
+
 - Multi-signature wallets
 - Time-locked withdrawals
 - Emergency pause mechanisms
@@ -77,25 +81,27 @@ graph TB
 
 ### **Tech Stack**
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| **Smart Contracts** | Solidity 0.8.19+ | Core staking logic and security |
-| **Frontend** | React 18 + TypeScript | User interface and Web3 integration |
-| **Backend** | Node.js + Express | API services and data processing |
-| **Web3 Integration** | ethers.js + wagmi | Blockchain interactions |
-| **Testing** | Hardhat + Waffle + Chai | Contract testing and deployment |
-| **CI/CD** | GitHub Actions | Automated testing and deployment |
+| Component            | Technology              | Purpose                             |
+| -------------------- | ----------------------- | ----------------------------------- |
+| **Smart Contracts**  | Solidity 0.8.19+        | Core staking logic and security     |
+| **Frontend**         | React 18 + TypeScript   | User interface and Web3 integration |
+| **Backend**          | Node.js + Express       | API services and data processing    |
+| **Web3 Integration** | ethers.js + wagmi       | Blockchain interactions             |
+| **Testing**          | Hardhat + Waffle + Chai | Contract testing and deployment     |
+| **CI/CD**            | GitHub Actions          | Automated testing and deployment    |
 
 ---
 
 ## 🚀 **Quick Start**
 
 ### **Prerequisites**
+
 - Node.js 14.0+ and npm/yarn
 - MetaMask or compatible Web3 wallet
 - Basic understanding of DeFi and staking
 
 ### **1. Installation**
+
 ```bash
 # Clone the repository
 git clone https://github.com/ChronoCoders/stakerise.git
@@ -109,7 +115,9 @@ cp .env.example .env
 ```
 
 ### **2. Configuration**
+
 Edit `.env` file with your settings:
+
 ```env
 # Network Configuration
 REACT_APP_NETWORK_ID=1
@@ -124,6 +132,7 @@ REACT_APP_API_URL=http://localhost:3001
 ```
 
 ### **3. Development**
+
 ```bash
 # Start local blockchain (for development)
 npx hardhat node
@@ -145,6 +154,7 @@ npm run dev:backend
 ```
 
 ### **4. Access the Application**
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
@@ -152,11 +162,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📖 **Usage Guide**
 
 ### **Connect Your Wallet**
+
 1. Click "Connect Wallet" button
 2. Select MetaMask or your preferred wallet
 3. Approve the connection
 
 ### **Start Staking**
+
 1. **Choose Asset** - Select cryptocurrency to stake
 2. **Select Pool** - Pick staking option (flexible/fixed/liquid)
 3. **Enter Amount** - Specify how much to stake
@@ -164,6 +176,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 5. **Earn Rewards** - Watch your rewards accumulate in real-time
 
 ### **Monitor Performance**
+
 - **Dashboard** - Overview of all staking positions
 - **Analytics** - Detailed performance metrics
 - **History** - Transaction and reward history
@@ -174,6 +187,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 🛠️ **Development**
 
 ### **Project Structure**
+
 ```
 stakerise/
 ├── contracts/              # Smart contracts
@@ -197,6 +211,7 @@ stakerise/
 ```
 
 ### **Smart Contract Development**
+
 ```bash
 # Compile contracts
 npm run compile
@@ -215,6 +230,7 @@ npm run verify
 ```
 
 ### **Frontend Development**
+
 ```bash
 # Start development server
 npm run dev:frontend
@@ -230,6 +246,7 @@ npm run type-check
 ```
 
 ### **Testing**
+
 ```bash
 # Run all tests
 npm test
@@ -249,28 +266,32 @@ npm run test:coverage
 ## 📊 **Supported Networks & Assets**
 
 ### **Mainnet**
-| Network | Assets | Status | APY Range |
-|---------|--------|--------|-----------|
-| **Ethereum** | ETH, USDC, USDT | ✅ Live | 3.5% - 7.2% |
-| **Polygon** | MATIC, USDC | ✅ Live | 6.8% - 12.4% |
-| **BSC** | BNB, BUSD | ✅ Live | 4.2% - 8.9% |
+
+| Network      | Assets          | Status  | APY Range    |
+| ------------ | --------------- | ------- | ------------ |
+| **Ethereum** | ETH, USDC, USDT | ✅ Live | 3.5% - 7.2%  |
+| **Polygon**  | MATIC, USDC     | ✅ Live | 6.8% - 12.4% |
+| **BSC**      | BNB, BUSD       | ✅ Live | 4.2% - 8.9%  |
 
 ### **Testnet**
-| Network | Purpose | Status |
-|---------|---------|--------|
-| **Goerli** | Ethereum testing | ✅ Active |
-| **Mumbai** | Polygon testing | ✅ Active |
-| **BSC Testnet** | BSC testing | ✅ Active |
+
+| Network         | Purpose          | Status    |
+| --------------- | ---------------- | --------- |
+| **Goerli**      | Ethereum testing | ✅ Active |
+| **Mumbai**      | Polygon testing  | ✅ Active |
+| **BSC Testnet** | BSC testing      | ✅ Active |
 
 ---
 
 ## 🔒 **Security**
 
 ### **Audit Reports**
+
 - [Q4 2024 - CertiK Audit](./docs/audits/certik-2024-q4.pdf) ✅
 - [Q1 2025 - Quantstamp Audit](./docs/audits/quantstamp-2025-q1.pdf) ✅
 
 ### **Security Practices**
+
 - **Multi-signature** wallets for admin functions
 - **Timelock** contracts for critical changes
 - **Emergency pause** mechanisms
@@ -278,7 +299,9 @@ npm run test:coverage
 - **Access control** with role-based permissions
 
 ### **Bug Bounty Program**
+
 We offer rewards for responsibly disclosed security vulnerabilities:
+
 - **Critical**: Up to $50,000
 - **High**: Up to $25,000
 - **Medium**: Up to $5,000
@@ -289,31 +312,36 @@ Report security issues to: [security@stakerise.io](mailto:security@stakerise.io)
 
 ## 🗺️ **Roadmap**
 
-### **Phase 1: Foundation** ✅ *Completed Q4 2024*
+### **Phase 1: Foundation** ✅ _Completed Q4 2024_
+
 - ✅ Core staking contracts development
 - ✅ Basic frontend implementation
 - ✅ Ethereum mainnet deployment
 - ✅ Security audit completion
 
-### **Phase 2: Multi-Chain** 🔄 *In Progress Q1 2025*
+### **Phase 2: Multi-Chain** 🔄 _In Progress Q1 2025_
+
 - ✅ Polygon network integration
 - ✅ BSC network support
 - 🔄 Cross-chain bridge functionality
 - 🔄 Unified portfolio management
 
-### **Phase 3: Advanced Features** 📅 *Q2 2025*
+### **Phase 3: Advanced Features** 📅 _Q2 2025_
+
 - 🔜 Liquid staking derivatives
 - 🔜 Governance token launch
 - 🔜 Yield farming strategies
 - 🔜 Mobile application
 
-### **Phase 4: DeFi Integration** 📅 *Q3 2025*
+### **Phase 4: DeFi Integration** 📅 _Q3 2025_
+
 - 🔜 Integration with major DeFi protocols
 - 🔜 Automated yield optimization
 - 🔜 Flash loan protection
 - 🔜 Insurance coverage options
 
-### **Phase 5: Ecosystem** 📅 *Q4 2025*
+### **Phase 5: Ecosystem** 📅 _Q4 2025_
+
 - 🔜 Developer API and SDKs
 - 🔜 Third-party integrations
 - 🔜 Institutional features
@@ -323,7 +351,8 @@ Report security issues to: [security@stakerise.io](mailto:security@stakerise.io)
 
 ## 📈 **Analytics & Metrics**
 
-### **Platform Statistics** *(Updated Daily)*
+### **Platform Statistics** _(Updated Daily)_
+
 ```
 Total Value Locked (TVL): $24.7M
 Active Stakers: 3,247
@@ -333,6 +362,7 @@ Average APY: 7.4%
 ```
 
 ### **Performance Metrics**
+
 - **Uptime**: 99.9%
 - **Transaction Success Rate**: 99.7%
 - **Average Response Time**: 1.2s
@@ -345,6 +375,7 @@ Average APY: 7.4%
 We welcome contributions from the community! Here's how you can help:
 
 ### **Ways to Contribute**
+
 - 🐛 **Bug Reports** - Found an issue? Let us know!
 - 💡 **Feature Requests** - Suggest new features
 - 🔧 **Code Contributions** - Submit pull requests
@@ -352,6 +383,7 @@ We welcome contributions from the community! Here's how you can help:
 - 🌍 **Translations** - Localize StakeRise
 
 ### **Development Workflow**
+
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
@@ -359,6 +391,7 @@ We welcome contributions from the community! Here's how you can help:
 5. **Open** a Pull Request
 
 ### **Code Standards**
+
 - Follow ESLint configuration
 - Write comprehensive tests
 - Update documentation
@@ -369,12 +402,14 @@ We welcome contributions from the community! Here's how you can help:
 ## 📞 **Support & Community**
 
 ### **Get Help**
+
 - 📖 **[Documentation](./docs/)** - Comprehensive guides
 - 💬 **[Discord](https://discord.gg/stakerise)** - Community chat
 - 🐦 **[Twitter](https://twitter.com/StakeRise)** - Updates and news
 - 📧 **[Email Support](mailto:support@stakerise.io)** - Direct assistance
 
 ### **Community Links**
+
 - **Website**: [stakerise.io](https://stakerise.io)
 - **Blog**: [blog.stakerise.io](https://blog.stakerise.io)
 - **Medium**: [@StakeRise](https://medium.com/@StakeRise)
@@ -385,12 +420,15 @@ We welcome contributions from the community! Here's how you can help:
 ## ⚖️ **Legal & Compliance**
 
 ### **License**
+
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
 
 ### **Disclaimer**
+
 StakeRise is experimental software. Please use at your own risk. Always do your own research before staking any assets.
 
 ### **Terms of Service**
+
 By using StakeRise, you agree to our [Terms of Service](https://stakerise.io/terms) and [Privacy Policy](https://stakerise.io/privacy).
 
 ---
@@ -405,7 +443,6 @@ By using StakeRise, you agree to our [Terms of Service](https://stakerise.io/ter
 
 **Made with ❤️ by the ChronoCoders Team**
 
-*© 2025 StakeRise. All Rights Reserved.*
+_© 2025 StakeRise. All Rights Reserved._
 
 </div>
-

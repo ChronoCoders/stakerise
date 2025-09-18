@@ -1,7 +1,7 @@
-import React from 'react';
-import { ReferralStats } from './referral-stats';
-import { ReferralCode } from './referral-code';
-import { ReferralHistory } from './referral-history';
+import React from "react";
+import { ReferralStats } from "./referral-stats";
+import { ReferralCode } from "./referral-code";
+import { ReferralHistory } from "./referral-history";
 
 export function ReferralDashboard() {
   return (

@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 export const validateAddress = (address: string): boolean => {
   try {
@@ -21,7 +21,7 @@ export const validateAmount = (amount: string, balance: string): boolean => {
 export const validateSignature = async (
   message: string,
   signature: string,
-  address: string
+  address: string,
 ): Promise<boolean> => {
   try {
     const signerAddr = ethers.verifyMessage(message, signature);
@@ -32,5 +32,5 @@ export const validateSignature = async (
 };
 
 export const sanitizeInput = (input: string): string => {
-  return input.replace(/[<>]/g, '');
+  return input.replace(/[<>]/g, "");
 };
