@@ -1,5 +1,5 @@
-import React from 'react';
-import { format } from 'date-fns';
+import React from "react";
+import { format } from "date-fns";
 import {
   AreaChart,
   Area,
@@ -7,11 +7,11 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer
-} from 'recharts';
+  ResponsiveContainer,
+} from "recharts";
 import { Card, CardContent } from "@/components/ui/card";
-import { useTokenChart } from '@/lib/price-service';
-import { Loader2 } from 'lucide-react';
+import { useTokenChart } from "@/lib/price-service";
+import { Loader2 } from "lucide-react";
 
 interface PriceChartProps {
   tokenId: string;
@@ -46,12 +46,13 @@ export function PriceChart({ tokenId, name, color }: PriceChartProps) {
     );
   }
 
-  const formattedData = chartData.map(point => ({
+  const formattedData = chartData.map((point) => ({
     ...point,
-    date: typeof point.date === 'string' 
-      ? new Date(point.date).getTime() 
-      : point.date,
-    price: Number(point.price)
+    date:
+      typeof point.date === "string"
+        ? new Date(point.date).getTime()
+        : point.date,
+    price: Number(point.price),
   }));
 
   return (
@@ -62,38 +63,49 @@ export function PriceChart({ tokenId, name, color }: PriceChartProps) {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={formattedData}>
               <defs>
-                <linearGradient id={`gradient-${tokenId}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor={color} stopOpacity={0}/>
+                <linearGradient
+                  id={`gradient-${tokenId}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+                  <stop offset="95%" stopColor={color} stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis 
+              <XAxis
                 dataKey="date"
                 type="number"
-                domain={['dataMin', 'dataMax']}
-                tickFormatter={(timestamp) => format(timestamp, 'MMM d')}
+                domain={["dataMin", "dataMax"]}
+                tickFormatter={(timestamp) => format(timestamp, "MMM d")}
                 scale="time"
               />
-              <YAxis 
+              <YAxis
                 tickFormatter={(value) => `$${value.toLocaleString()}`}
-                domain={['auto', 'auto']}
+                domain={["auto", "auto"]}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--background))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '0.5rem',
+                  backgroundColor: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem",
                 }}
-                formatter={(value: number) => [`$${value.toLocaleString()}`, 'Price']}
-                labelFormatter={(timestamp) => format(timestamp, 'MMM d, yyyy HH:mm')}
+                formatter={(value: number) => [
+                  `$${value.toLocaleString()}`,
+                  "Price",
+                ]}
+                labelFormatter={(timestamp) =>
+                  format(timestamp, "MMM d, yyyy HH:mm")
+                }
               />
               <Area
                 type="monotone"
                 dataKey="price"
                 stroke={color}
                 fill={`url(#gradient-${tokenId})`}
-                isAnimationActive={true}
+                isAnimationActive
                 animationDuration={1000}
               />
             </AreaChart>
