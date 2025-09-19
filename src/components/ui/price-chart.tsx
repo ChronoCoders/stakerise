@@ -93,7 +93,7 @@ export function PriceChart({ tokenId, name, color }: PriceChartProps) {
                 dataKey="price"
                 stroke={color}
                 fill={`url(#gradient-${tokenId})`}
-                isAnimationActive={true}
+                isAnimationActive
                 animationDuration={1000}
               />
             </AreaChart>
