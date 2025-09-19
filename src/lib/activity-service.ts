@@ -53,11 +53,11 @@ export class ActivityService {
       token_staked: (p) => `Staked ${p.amount} ${p.token} for ${p.duration} months`,
       token_unstaked: (p) => `Unstaked ${p.amount} ${p.token}`,
       rewards_claimed: (p) => `Claimed ${p.amount} ${p.token} rewards`,
-      kyc_submitted: () => `Submitted KYC documents for verification`,
+      kyc_submitted: () => "Submitted KYC documents for verification",
       kyc_updated: (p) => `KYC status updated to ${p.status}`,
       settings_updated: (p) => `Updated ${p.setting} settings`,
       login: (p) => `Logged in from ${p.browser} on ${p.os}`,
-      logout: () => `Logged out`
+      logout: () => "Logged out"
     };
 
     return templates[action]?.(params) || action;
